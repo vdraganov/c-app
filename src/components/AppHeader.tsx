@@ -4,6 +4,7 @@ import throttle from 'lodash.throttle';
 import '../App.css';
 
 import logo from '../assets/logo.svg';
+import bi from '../assets/studiostoks160300045.jpg';
 
 class AppHeader extends React.Component {
 	maxOffsetFromTop = 50;
@@ -31,22 +32,36 @@ class AppHeader extends React.Component {
 		window.removeEventListener('scroll', this.onScroll);
 	}
 
+	onClickHandler() {
+		console.log('Btn works!');
+	}
+
 	public render() {
 		return (
 			<StyledAppHeader className={this.state.isShrinked ? 'shrink' : ''}>
-				<img className="App-logo" src={logo} alt="logo" />
-				<h1 className="App-title">Welcome to React</h1>
+				<div className="header-wrapper">
+					<img className="App-logo" src={logo} alt="logo" />
+					<h1 className="App-title">Welcome to React</h1>
+					<button onClick={this.onClickHandler}>Pick Something For Me</button>
+				</div>
 			</StyledAppHeader>
 		);
 	}
 }
 
 const StyledAppHeader = styled.header`
-	background-color: #222;
-	height: 150px;
+	height: 200px;
 	padding: 20px;
 	color: white;
 	transition: all 0.4s ease-in-out;
+	background-image: url(${bi});
+	background-repeat: no-repeat;
+	background-color: #ff811a;
+
+	.header-wrapper {
+		width: 50%;
+		margin: auto 0 auto auto;
+	}
 
 	.App-title {
 		font-size: 1.5em;
@@ -57,14 +72,40 @@ const StyledAppHeader = styled.header`
 		height: 80px;
 	}
 
+	button {
+		background-color: #ff811a;
+		color: #fff;
+		padding: 10px;
+		margin: 5px;
+		border-width: 1px;
+		border-style: solid;
+		border-color: #ff0;
+		border-radius: 0.5em;
+		font-weight: 800;
+		white-space: nowrap;
+
+		&:hover {
+			cursor: pointer;
+			transform: scale(1.07);
+			background-color: #ff0;
+			color: #222;
+		}
+	}
+
 	&.shrink {
-		display: flex;
-		align-items: center;
 		text-align: left;
 		height: 60px;
+		padding: 0;
+		background-image: none;
 		transition: all 0.4s ease-out;
 
-		> .App-logo {
+		> .header-wrapper {
+			display: flex;
+			align-items: center;
+			margin: 0 auto 0 1em;
+		}
+
+		.App-logo {
 			height: 30px;
 		}
 	}

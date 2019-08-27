@@ -42,7 +42,6 @@ class Main extends React.Component<Props> {
 						<DrinkDetailsCard drinkDetails={this.props.displayDrink} />
 						<Slider {...this.sliderSettings}>
 							{this.props.drinks.map((d) => (
-								// <div key={`slider_${d.drinkId}`}>
 								<DrinkCard
 									className="slider-card"
 									key={`slider_${d.drinkId}`}
@@ -51,12 +50,11 @@ class Main extends React.Component<Props> {
 									drinkThumb={d.drinkThumb}
 									clickHandler={this.props.fetchDrinkDetails}
 								/>
-								// </div>
 							))}
 						</Slider>
 					</div>
 				) : (
-					<StyledDrinksContainer className={this.props.displayDrink ? '' : ''}>
+					<StyledDrinksContainer>
 						{this.props.drinks.map((d) => (
 							<DrinkCard
 								key={d.drinkId}
@@ -87,6 +85,7 @@ const mapDispatchToProps: DispatchProps = {
 const StyledMainContainer = styled.div`
 	display: flex;
 	width: 100%;
+	margin: 0.5em;
 
 	> .slider-wrapper {
 		background-color: #293133;
@@ -98,8 +97,6 @@ const StyledMainContainer = styled.div`
 		flex: 1 100%;
 	}
 `;
-
-const StyledDrinkCard = styled.div`width: 100%;`;
 
 const StyledDrinksContainer = styled.div`
 	display: flex;

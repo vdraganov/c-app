@@ -68,7 +68,7 @@ const mapDispatchToProps: DispatchProps = {
 };
 
 const StyledCategoryWrapper = styled.ul`
-	padding: 0.5em 0.5em 0;
+	padding: 0.5em;
 	margin: 0;
 	display: flex;
 	flex-direction: row;
