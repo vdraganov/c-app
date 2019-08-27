@@ -3,14 +3,14 @@ import { setActiveCategory } from '../store/actions/categoryAction';
 import { initialState as categoryState, categoryReducer } from '../store/reducers/categoryReducer';
 
 describe('Category reducer', () => {
-	it('correctly sets category name', () => {
+	it('should set active category', () => {
 		const categoryNameMock = 'Cocoa';
 		const result = categoryReducer(categoryState, setActiveCategory('Cocoa'));
 
 		expect(getModel(result)).toBe(categoryNameMock);
 	});
 
-	it('correctly overides category name', () => {
+	it('should override active category', () => {
 		const categoryNameMock = 'Cocoa';
 		const state = 'Cocktail';
 

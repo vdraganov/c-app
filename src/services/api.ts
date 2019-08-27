@@ -2,16 +2,17 @@ import axios, { AxiosResponse } from 'axios';
 
 export enum apiRoutes {
 	Filter = '/filter.php',
-	List = '/list.php'
+	List = '/list.php',
+	Lookup = '/lookup.php'
 }
 
-const API_BASE_URL = 'https://the-cocktail-db.p.rapidapi.com';
+const API_BASE_URL = `https://${process.env.REACT_APP_RAPIDAPI_HOST}`;
 
 const api = axios.create({
 	baseURL: API_BASE_URL,
 	headers: {
-		'x-rapidapi-host': 'the-cocktail-db.p.rapidapi.com',
-		'x-rapidapi-key': 'bae889ed87msh696f24572b6654ep103bb5jsn1e526662dae2'
+		'x-rapidapi-host': process.env.REACT_APP_RAPIDAPI_HOST,
+		'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY
 	}
 });
 

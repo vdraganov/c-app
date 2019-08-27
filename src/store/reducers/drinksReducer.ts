@@ -1,12 +1,19 @@
 import { LoopReducer, Loop, loop, Cmd } from 'redux-loop';
 import * as drinksActions from '../actions/drinksAction';
 import { getDrinksByCategory } from '../../services/filter/filterService';
-import { IDrink } from '../../models/drink.model';
+import { getDrinkDetails } from '../../services/lookup/drinkDetails';
+import { IDrink, IDrinkDetails } from '../../models/drink.model';
 import { Actions } from '..';
 
-export type DrinksState = IDrink[];
+export type DrinksState = {
+	drinksList: IDrink[];
+	displayDrink: IDrinkDetails | null;
+};
 
-export const initialState = [];
+export const initialState = {
+	drinksList: [],
+	displayDrink: null
+};
 
 export const drinksReducer: LoopReducer<DrinksState, Actions> = (
 	state: DrinksState = initialState,
@@ -23,7 +30,27 @@ export const drinksReducer: LoopReducer<DrinksState, Actions> = (
 				})
 			);
 		case drinksActions.FETCH_DRINKS_LIST_SUCCESS:
-			return [ ...action.value ];
+			return {
+				...state,
+				drinksList: [ ...action.value ],
+				displayDrink: null
+			};
+
+		case drinksActions.FETCH_DRINK_DETAILS:
+			return loop(
+				state,
+				Cmd.run(getDrinkDetails, {
+					successActionCreator: drinksActions.fetchDrinkDetailsSuccess,
+					failActionCreator: drinksActions.fetchDrinkDetailsFail,
+					args: [ action.value ]
+				})
+			);
+		case drinksActions.FETCH_DRINK_DETAILS_SUCCESS:
+			return {
+				...state,
+				displayDrink: action.value
+			};
+
 		default:
 			return state;
 	}

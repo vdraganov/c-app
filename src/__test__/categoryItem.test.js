@@ -6,7 +6,9 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 describe('Category item component', () => {
-	it('Click event on the category returns caterogy name', () => {
+	it('Click event on the category returns category name', () => {
+		// add a test if item is rendered
+		// add a test if item is rendered with proper fields
 		const mockCategoryItem = shallow(<CategoryItem />);
 		const mockDrinkName = 'Cocktail';
 		const mockClickHandler = jest.fn();

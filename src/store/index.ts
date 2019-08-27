@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Action as categoryAction } from './actions/categoryAction';
 import { Action as drinksAction } from './actions/drinksAction';
 import { categoryReducer, CategoryState } from './reducers/categoryReducer';
-import { drinksReducer, DrinksState } from './reducers/drinksReducer';
+import { drinksReducer, DrinksState, initialState as drinksInit } from './reducers/drinksReducer';
 
 export type IStore = {
 	activeCategory: CategoryState;
@@ -21,7 +21,7 @@ export const rootReducer = combineReducers<IStore, Actions>({
 
 export const initialState: IStore = {
 	activeCategory: '',
-	drinks: []
+	drinks: drinksInit
 };
 
 export const enhancedCreateStore = createStore as StoreCreator;

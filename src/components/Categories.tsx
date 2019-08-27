@@ -64,7 +64,7 @@ function mapStateToProps(state: IStore): StateProps {
 }
 
 const mapDispatchToProps: DispatchProps = {
-	setActiveCategory: setActiveCategory
+	setActiveCategory
 };
 
 const StyledCategoryWrapper = styled.ul`
