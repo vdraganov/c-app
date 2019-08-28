@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import throttle from 'lodash.throttle';
 
-import { getRandomDrink, Action } from '../store/actions/drinksAction';
+import { fetchRandomDrink, Action } from '../store/actions/drinksAction';
 
 import '../App.css';
 
@@ -11,7 +11,7 @@ import logo from '../assets/logo.svg';
 import backImg from '../assets/studiostoks160300045.jpg';
 
 interface DispatchProps {
-	getRandomDrink: () => Action;
+	fetchRandomDrink: () => Action;
 }
 
 class AppHeader extends React.Component<DispatchProps> {
@@ -49,7 +49,7 @@ class AppHeader extends React.Component<DispatchProps> {
 						<h1 className="App-title">Welcome to React</h1>
 					</div>
 					<div className="shrink-right-container">
-						<button onClick={this.props.getRandomDrink}>Pick Something For Me</button>
+						<button onClick={this.props.fetchRandomDrink}>Pick Something For Me</button>
 					</div>
 				</div>
 			</StyledAppHeader>
@@ -136,7 +136,7 @@ const StyledAppHeader = styled.header`
 `;
 
 const mapDispatchToProps: DispatchProps = {
-	getRandomDrink
+	fetchRandomDrink
 };
 
 export default connect(null, mapDispatchToProps)(AppHeader);

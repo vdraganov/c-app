@@ -45,7 +45,7 @@ export function fetchDrinksListFail(): Action {
 	};
 }
 
-export function getRandomDrink(): Action {
+export function fetchRandomDrink(): Action {
 	return {
 		type: GET_RANDOM_DRINK
 	};

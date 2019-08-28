@@ -2,6 +2,7 @@ import { getModel, getCmd } from 'redux-loop';
 import * as drinksActions from '../store/actions/drinksAction';
 import { getDrinksByCategory } from '../services/filter/filterService';
 import { getDrinkDetails } from '../services/lookup/drinkDetails';
+import { getRandomDrink } from '../services/lookup/randomDrink';
 import { initialState as drinksState, drinksReducer } from '../store/reducers/drinksReducer';
 
 describe('Drinks reducer', () => {
@@ -61,5 +62,12 @@ describe('Drinks reducer', () => {
 		const result = drinksReducer(drinksState, drinksActions.fetchDrinkDetailsSuccess(drinkDetailsMock));
 
 		expect(result).toEqual(expectedState);
+	});
+
+	it('should execute fetch random drink details', () => {
+		const result = drinksReducer(drinksState, drinksActions.fetchRandomDrink());
+
+		expect(getModel(result)).toEqual(drinksState);
+		expect(getCmd(result).func).toEqual(getRandomDrink);
 	});
 });
