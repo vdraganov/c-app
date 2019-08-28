@@ -3,7 +3,8 @@ import axios, { AxiosResponse } from 'axios';
 export enum apiRoutes {
 	Filter = '/filter.php',
 	List = '/list.php',
-	Lookup = '/lookup.php'
+	Lookup = '/lookup.php',
+	Random = '/random.php'
 }
 
 const API_BASE_URL = `https://${process.env.REACT_APP_RAPIDAPI_HOST}`;

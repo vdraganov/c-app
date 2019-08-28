@@ -2,6 +2,7 @@ import { LoopReducer, Loop, loop, Cmd } from 'redux-loop';
 import * as drinksActions from '../actions/drinksAction';
 import { getDrinksByCategory } from '../../services/filter/filterService';
 import { getDrinkDetails } from '../../services/lookup/drinkDetails';
+import { getRandomDrink } from '../../services/lookup/randomDrink';
 import { IDrink, IDrinkDetails } from '../../models/drink.model';
 import { Actions } from '..';
 
@@ -36,6 +37,15 @@ export const drinksReducer: LoopReducer<DrinksState, Actions> = (
 				displayDrink: null
 			};
 
+		case drinksActions.GET_RANDOM_DRINK:
+			return loop(
+				state,
+				Cmd.run(getRandomDrink, {
+					successActionCreator: drinksActions.fetchDrinkDetailsSuccess,
+					failActionCreator: drinksActions.fetchDrinkDetailsFail
+				})
+			);
+
 		case drinksActions.FETCH_DRINK_DETAILS:
 			return loop(
 				state,
@@ -45,6 +55,7 @@ export const drinksReducer: LoopReducer<DrinksState, Actions> = (
 					args: [ action.value ]
 				})
 			);
+
 		case drinksActions.FETCH_DRINK_DETAILS_SUCCESS:
 			return {
 				...state,
