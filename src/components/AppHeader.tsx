@@ -1,12 +1,20 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import throttle from 'lodash.throttle';
+
+import { getRandomDrink, Action } from '../store/actions/drinksAction';
+
 import '../App.css';
 
 import logo from '../assets/logo.svg';
-import bi from '../assets/studiostoks160300045.jpg';
+import backImg from '../assets/studiostoks160300045.jpg';
 
-class AppHeader extends React.Component {
+interface DispatchProps {
+	getRandomDrink: () => Action;
+}
+
+class AppHeader extends React.Component<DispatchProps> {
 	maxOffsetFromTop = 50;
 	wait = 200;
 	state = {
@@ -32,17 +40,17 @@ class AppHeader extends React.Component {
 		window.removeEventListener('scroll', this.onScroll);
 	}
 
-	onClickHandler() {
-		console.log('Btn works!');
-	}
-
 	public render() {
 		return (
 			<StyledAppHeader className={this.state.isShrinked ? 'shrink' : ''}>
 				<div className="header-wrapper">
-					<img className="App-logo" src={logo} alt="logo" />
-					<h1 className="App-title">Welcome to React</h1>
-					<button onClick={this.onClickHandler}>Pick Something For Me</button>
+					<div className="shrink-left-container">
+						<img className="App-logo" src={logo} alt="logo" />
+						<h1 className="App-title">Welcome to React</h1>
+					</div>
+					<div className="shrink-right-container">
+						<button onClick={this.props.getRandomDrink}>Pick Something For Me</button>
+					</div>
 				</div>
 			</StyledAppHeader>
 		);
@@ -54,7 +62,7 @@ const StyledAppHeader = styled.header`
 	padding: 20px;
 	color: white;
 	transition: all 0.4s ease-in-out;
-	background-image: url(${bi});
+	background-image: url(${backImg});
 	background-repeat: no-repeat;
 	background-color: #ff811a;
 
@@ -93,22 +101,42 @@ const StyledAppHeader = styled.header`
 	}
 
 	&.shrink {
-		text-align: left;
 		height: 60px;
 		padding: 0;
 		background-image: none;
 		transition: all 0.4s ease-out;
 
-		> .header-wrapper {
-			display: flex;
-			align-items: center;
-			margin: 0 auto 0 1em;
-		}
-
 		.App-logo {
 			height: 30px;
+			align-self: center;
+		}
+
+		.App-title {
+			font-size: 1em;
+		}
+
+		> .header-wrapper {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.shrink-left-container,
+		.shrink-right-container {
+			display: flex;
+			margin: 0 10px;
+		}
+
+		.shrink-left-container > * {
+			display: inline-block;
 		}
 	}
 `;
 
-export default AppHeader;
+const mapDispatchToProps: DispatchProps = {
+	getRandomDrink
+};
+
+export default connect(null, mapDispatchToProps)(AppHeader);
