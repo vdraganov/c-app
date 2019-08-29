@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import throttle from 'lodash.throttle';
+import SearchField from './SearchField';
 
 import { fetchRandomDrink, Action } from '../store/actions/drinksAction';
 
@@ -41,14 +42,17 @@ class AppHeader extends React.Component<DispatchProps> {
 	}
 
 	public render() {
+		const headerShrinkClass = this.state.isShrinked ? 'shrink' : '';
+
 		return (
-			<StyledAppHeader className={this.state.isShrinked ? 'shrink' : ''}>
+			<StyledAppHeader className={headerShrinkClass}>
 				<div className="header-wrapper">
 					<div className="shrink-left-container">
 						<img className="App-logo" src={logo} alt="logo" />
 						<h1 className="App-title">Welcome to React</h1>
 					</div>
 					<div className="shrink-right-container">
+						<SearchField className={headerShrinkClass} />
 						<button onClick={this.props.fetchRandomDrink}>Pick Something For Me</button>
 					</div>
 				</div>
@@ -58,7 +62,7 @@ class AppHeader extends React.Component<DispatchProps> {
 }
 
 const StyledAppHeader = styled.header`
-	height: 200px;
+	height: 220px;
 	padding: 20px;
 	color: white;
 	transition: all 0.4s ease-in-out;
