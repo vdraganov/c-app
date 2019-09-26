@@ -8,12 +8,14 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import { DrinkCard } from './DrinkCard';
 import { DrinkDetailsCard } from './DrinkDetailsCard';
-import { IDrink, IDrinkDetails } from '../models/drink.model';
+import { IDrinkDetails } from '../models/drink.model';
+import { IDrinkListHash } from '../models/drinksList.model';
 import { IStore } from '../store';
 import { fetchDrinkDetails, Action } from '../store/actions/drinksAction';
 
 interface OwnProps {
-	drinks: IDrink[];
+	drinksList: IDrinkListHash;
+	activeCategory: string;
 	displayDrink: IDrinkDetails | null;
 }
 
@@ -24,7 +26,7 @@ interface DispatchProps {
 type Props = OwnProps & DispatchProps;
 
 class Main extends React.Component<Props> {
-	sliderSettings = {
+	private sliderSettings = {
 		autoplay: true,
 		autoplaySpeed: 5000,
 		dots: true,
@@ -35,13 +37,16 @@ class Main extends React.Component<Props> {
 	};
 
 	render() {
+		const { activeCategory, drinksList } = this.props;
+		const activeDrinksList = drinksList[activeCategory.toLowerCase()] || [];
+
 		return (
 			<StyledMainContainer>
 				{this.props.displayDrink ? (
 					<div className="slider-wrapper">
 						<DrinkDetailsCard drinkDetails={this.props.displayDrink} />
 						<Slider {...this.sliderSettings}>
-							{this.props.drinks.map((d) => (
+							{activeDrinksList.map((d) => (
 								<DrinkCard
 									className="slider-card"
 									key={`slider_${d.drinkId}`}
@@ -55,7 +60,7 @@ class Main extends React.Component<Props> {
 					</div>
 				) : (
 					<StyledDrinksContainer>
-						{this.props.drinks.map((d) => (
+						{activeDrinksList.map((d) => (
 							<DrinkCard
 								key={d.drinkId}
 								drinkId={d.drinkId}
@@ -73,7 +78,8 @@ class Main extends React.Component<Props> {
 
 function mapStateToProps(state: IStore): OwnProps {
 	return {
-		drinks: state.drinks.drinksList,
+		drinksList: state.drinks.drinksLists,
+		activeCategory: state.activeCategory,
 		displayDrink: state.drinks.displayDrink
 	};
 }

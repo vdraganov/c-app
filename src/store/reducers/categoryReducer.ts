@@ -13,7 +13,11 @@ export const categoryReducer: LoopReducer<CategoryState, Actions> = (
 ): CategoryState | Loop<CategoryState, Actions> => {
 	switch (action.type) {
 		case categoryActions.SET_ACTIVE_CATEGORY:
+			return action.value;
+
+		case categoryActions.FETCH_ACTIVE_CATEGORY_DRINKS:
 			return loop(action.value, Cmd.action(fetchDrinksList(action.value)));
+
 		default:
 			return state;
 	}

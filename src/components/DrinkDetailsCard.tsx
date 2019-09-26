@@ -82,6 +82,7 @@ const StyledDrinkDetailsCard = styled.div`
 
 			> .details-instructions-wrapper {
 				color: #fff;
+				font-size: 0.9em;
 				margin-bottom: 1em;
 				margin-right: 1em;
 				white-space: pre-line;

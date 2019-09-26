@@ -4,15 +4,18 @@ import { getDrinksByCategory } from '../../services/filter/filterService';
 import { getDrinkDetails } from '../../services/lookup/drinkDetails';
 import { getRandomDrink } from '../../services/lookup/randomDrink';
 import { IDrink, IDrinkDetails } from '../../models/drink.model';
+import { IDrinkListHash } from '../../models/drinksList.model';
 import { Actions } from '..';
 
 export type DrinksState = {
 	drinksList: IDrink[];
+	drinksLists: IDrinkListHash;
 	displayDrink: IDrinkDetails | null;
 };
 
 export const initialState = {
 	drinksList: [],
+	drinksLists: {},
 	displayDrink: null
 };
 
@@ -27,15 +30,29 @@ export const drinksReducer: LoopReducer<DrinksState, Actions> = (
 				Cmd.run(getDrinksByCategory, {
 					successActionCreator: drinksActions.fetchDrinksListSuccess,
 					failActionCreator: drinksActions.fetchDrinksListFail,
-					args: [ action.value ]
+					args: [ action.value, Cmd.getState ]
 				})
 			);
 		case drinksActions.FETCH_DRINKS_LIST_SUCCESS:
-			return {
-				...state,
-				drinksList: [ ...action.value ],
-				displayDrink: null
-			};
+			const { category, drinks } = action.value;
+
+			return loop(
+				{
+					...state,
+					drinksLists: {
+						...state.drinksLists,
+						[category]: drinks
+					},
+					displayDrink: null
+				},
+				Cmd.action({ type: drinksActions.SET_ACTIVE_DRINKS_LIST, value: drinks })
+			);
+
+		// case drinksActions.UNSET_DRINK_DETAILS:
+		// 	return {
+		// 		...state,
+		// 		displayDrink: null
+		// 	};
 
 		case drinksActions.GET_RANDOM_DRINK:
 			return loop(

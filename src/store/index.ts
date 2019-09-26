@@ -1,6 +1,7 @@
-import { createStore, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import { install, StoreCreator, combineReducers } from 'redux-loop';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { serviceInterceptor } from './middleware/serviceInterceptorMiddleware';
 
 import { Action as categoryAction } from './actions/categoryAction';
 import { Action as drinksAction } from './actions/drinksAction';
@@ -26,7 +27,6 @@ export const initialState: IStore = {
 
 export const enhancedCreateStore = createStore as StoreCreator;
 
-let enhancer = compose(install<IStore>());
-enhancer = compose(install(), composeWithDevTools());
+let enhancer = compose(install<IStore>(), composeWithDevTools(applyMiddleware(serviceInterceptor)));
 
 export const store = enhancedCreateStore(rootReducer, initialState, enhancer);

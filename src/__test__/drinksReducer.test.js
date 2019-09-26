@@ -6,30 +6,42 @@ import { getRandomDrink } from '../services/lookup/randomDrink';
 import { initialState as drinksState, drinksReducer } from '../store/reducers/drinksReducer';
 
 describe('Drinks reducer', () => {
+	const drinksMock = [
+		{
+			drinkName: '3 Wise Men',
+			drinkId: '13899',
+			drinkThumb: 'https://www.thecocktaildb.com/images/media/drink/wxqpyw1468877677.jpg'
+		}
+	];
+
 	it('should execute fetch drinks list', () => {
 		const result = drinksReducer(drinksState, drinksActions.fetchDrinksList('Cocoa'));
 
 		expect(getModel(result)).toEqual(drinksState);
 		expect(getCmd(result).func).toEqual(getDrinksByCategory);
 
-		expect(getCmd(result).args).toHaveLength(1);
+		expect(getCmd(result).args).toHaveLength(2);
 		expect(getCmd(result).args).toContain('Cocoa');
 	});
 
 	it('should handle FETCH_DRINKS_LIST_SUCCESS', () => {
-		const drinksMock = [
-			{
-				drinkName: '3 Wise Men',
-				drinkId: '13899',
-				drinkThumb: 'https://www.thecocktaildb.com/images/media/drink/wxqpyw1468877677.jpg'
-			}
-		];
+		const mockActionValue = {
+			category: 'Shot',
+			drinks: drinksMock
+		};
+		const result = drinksReducer(drinksState, drinksActions.fetchDrinksListSuccess(mockActionValue));
+
+		expect(getCmd(result).actionToDispatch.type).toEqual(drinksActions.SET_ACTIVE_DRINKS_LIST);
+		expect(getModel(result).drinksList).toEqual(drinksState.drinksList);
+	});
+
+	it('should handle SET_ACTIVE_DRINKS_LIST', () => {
 		const expectedState = {
 			...drinksState,
 			drinksList: drinksMock
 		};
 
-		const result = drinksReducer(drinksState, drinksActions.fetchDrinksListSuccess(drinksMock));
+		const result = drinksReducer(drinksState, drinksActions.setActiveDrinksList(drinksMock));
 
 		expect(result).toEqual(expectedState);
 	});

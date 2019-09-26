@@ -10,8 +10,13 @@ const mapToModel = (data: any) => {
 	});
 };
 
-export const getDrinksByCategory = (categoryName: string) => {
+export const getDrinksByCategory = (categoryName: string, getState: any) => {
 	const apiCompatName = categoryName.replace(' ', '_');
 
-	return get(apiRoutes.Filter, { c: apiCompatName }).then((resp) => mapToModel(resp.drinks));
+	return get(apiRoutes.Filter, { c: apiCompatName }).then((resp) => {
+		return {
+			category: getState().activeCategory.toLowerCase(),
+			drinks: mapToModel(resp.drinks)
+		};
+	});
 };
